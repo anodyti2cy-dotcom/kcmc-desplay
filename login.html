@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="nembo.png" type="image/png">
+<title>Kuingia - TAG KCMC</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at top left,#dce8ff,transparent 45%),linear-gradient(135deg,#f6f8fc,#e8edf5);font-family:'Segoe UI',Arial,sans-serif;color:#17233a}
+.card{width:min(100%,440px);padding:30px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 24px 70px #14233d24}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.brand img{width:48px;height:48px;object-fit:contain}
+.brand b{font-size:20px}.brand small{display:block;color:#64748b;margin-top:3px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:24px;margin:0 0 6px}
+p{color:#64748b;line-height:1.5;margin:0 0 18px}
+label{display:block;color:#344054;font-weight:650;font-size:13px;margin:13px 0 4px}
+input,select,button{font:inherit}
+input[type=text],input[type=password],input[type=file],select{width:100%;padding:11px 12px;border:1px solid #d5dbe5;border-radius:9px;background:#fff;color:#202633}
+input:focus,select:focus{outline:3px solid #3b82f633;border-color:#3b82f6}
+button{width:100%;padding:12px 14px;margin-top:16px;border:0;border-radius:10px;background:#1677e8;color:#fff;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.language{width:auto;padding:7px 9px;font-size:13px}
+.avatar{width:84px;height:84px;object-fit:cover;border-radius:50%;background:#eef2f8;border:3px solid #dbe5f3;display:block;margin:10px auto}
+#avatarPreview[hidden]{display:none}
+#message{min-height:22px;margin-top:12px;color:#b42318;font-size:14px;line-height:1.4}
+@media(max-width:480px){.card{padding:22px}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="brand"><img src="nembo.png" alt=""><div><b>TAG • KCMC</b><small id="brandCaption">Mfumo wa uwasilishaji</small></div></div>
+<div class="head"><h1 id="title">Inapakia...</h1><select id="language" class="language" aria-label="Lugha"><option value="sw">Kiswahili</option><option value="en">English</option></select></div>
+<p id="intro"></p>
+<form id="setupForm" hidden>
+<label for="username">Jina la mtumiaji</label><input id="username" type="text" minlength="3" maxlength="32" autocomplete="username" required>
+<label for="password">Nenosiri (angalau herufi 10)</label><input id="password" type="password" minlength="10" maxlength="256" autocomplete="new-password" required>
+<label for="passwordConfirm">Rudia nenosiri</label><input id="passwordConfirm" type="password" minlength="10" maxlength="256" autocomplete="new-password" required>
+<label for="avatar">Picha ya wasifu (JPG, PNG au WebP)</label><img id="avatarPreview" class="avatar" alt="Hakikisho la picha" hidden><input id="avatar" type="file" accept="image/jpeg,image/png,image/webp" required>
+<div id="setupTokenRow" hidden><label for="setupToken">Msimbo wa usanidi</label><input id="setupToken" type="password" autocomplete="off"></div>
+<button id="setupButton" type="submit">Unda akaunti na uingie</button>
+</form>
+<form id="loginForm" hidden>
+<label for="loginUsername">Jina la mtumiaji</label><input id="loginUsername" type="text" autocomplete="username" required>
+<label for="loginPassword">Nenosiri</label><input id="loginPassword" type="password" autocomplete="current-password" required>
+<button id="loginButton" type="submit">Ingia</button>
+</form>
+<div id="message" role="status" aria-live="polite"></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let setupAvatar=null,setupRequired=false;
+const words={
+ sw:{caption:'Mfumo wa uwasilishaji',loading:'Inapakia...',setup:'Sanidi akaunti ya kwanza',login:'Ingia kwenye mfumo',
+  setupIntro:'Unda akaunti ya mwalimu. Akaunti hii itahitajika kila utakaporudi.',
+  loginIntro:'Tumia jina la mtumiaji na nenosiri uliloweka wakati wa usanidi.',
+  username:'Jina la mtumiaji',password:'Nenosiri',passwordHint:'Nenosiri (angalau herufi 10)',
+  confirm:'Rudia nenosiri',avatar:'Picha ya wasifu (JPG, PNG au WebP)',
+  create:'Unda akaunti na uingie',signIn:'Ingia',invalid:'Jina la mtumiaji au nenosiri si sahihi.',
+  mismatch:'Nenosiri mbili hazifanani.',needAvatar:'Chagua picha ya wasifu ili kuendelea.',
+  imageType:'Chagua picha ya JPG, PNG au WebP.',imageSize:'Picha ya awali isizidi MB 12.',
+  imageDecode:'Imeshindikana kusoma picha. Chagua picha nyingine.',
+  server:'Seva haipatikani. Hakikisha umeanzisha mfumo kwa anza.bat.',
+  saved:'Akaunti imeanzishwa. Inaelekeza kwenye mfumo...',setupToken:'Msimbo wa usanidi si sahihi.'},
+ en:{caption:'Presentation system',loading:'Loading...',setup:'Set up the first account',login:'Sign in',
+  setupIntro:'Create the teacher account. You will need it whenever you return.',
+  loginIntro:'Use the username and password you created during setup.',
+  username:'Username',password:'Password',passwordHint:'Password (at least 10 characters)',
+  confirm:'Confirm password',avatar:'Profile picture (JPG, PNG or WebP)',
+  create:'Create account and sign in',signIn:'Sign in',invalid:'The username or password is incorrect.',
+  mismatch:'The passwords do not match.',needAvatar:'Choose a profile picture to continue.',
+  imageType:'Choose a JPG, PNG or WebP image.',imageSize:'The original image must be under 12 MB.',
+  imageDecode:'Could not read the image. Choose another image.',
+  server:'Server unavailable. Make sure you started the system with anza.bat.',
+  saved:'Account created. Opening the system...',setupToken:'The setup code is incorrect.'}
+};
+function translate(){
+ const w=words[$('language').value];
+ document.documentElement.lang=$('language').value;
+ $('brandCaption').textContent=w.caption;
+ $('title').textContent=setupRequired?w.setup:w.login;
+ $('intro').textContent=setupRequired?w.setupIntro:w.loginIntro;
+ $('username').previousElementSibling.textContent=w.username;
+ $('password').previousElementSibling.textContent=w.passwordHint;
+ $('passwordConfirm').previousElementSibling.textContent=w.confirm;
+ document.querySelector('label[for="avatar"]').textContent=w.avatar;
+ document.querySelector('label[for="setupToken"]').textContent=$('language').value==='sw'?'Msimbo wa usanidi':'Setup code';
+ $('loginUsername').previousElementSibling.textContent=w.username;
+ $('loginPassword').previousElementSibling.textContent=w.password;
+ $('setupButton').textContent=w.create;$('loginButton').textContent=w.signIn;
+ $('language').setAttribute('aria-label',$('language').value==='sw'?'Lugha':'Language');
+}
+function notice(text){$('message').textContent=text}
+async function post(path,data){
+ const response=await fetch(path,{method:'POST',credentials:'same-origin',cache:'no-store',
+  headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+ const result=await response.json();
+ if(!response.ok)throw new Error(result.error||words[$('language').value].invalid);
+ return result;
+}
+async function encodeAvatar(file){
+ if(!file) return null;
+ const w=words[$('language').value];
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error(w.imageType);
+ if(file.size>12*1024*1024)throw new Error(w.imageSize);
+ try{
+  const image=await createImageBitmap(file),scale=Math.min(1,512/image.width,512/image.height);
+  const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.width*scale));canvas.height=Math.max(1,Math.round(image.height*scale));
+  canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);image.close();
+  const data=canvas.toDataURL('image/jpeg',.84);
+  if(data.length>1_400_000)throw new Error(w.imageSize);
+  return data;
+ }catch(error){if(error.message===w.imageSize)throw error;throw new Error(w.imageDecode)}
+}
+$('language').onchange=translate;
+$('avatar').onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{setupAvatar=await encodeAvatar(file);$('avatarPreview').src=setupAvatar;$('avatarPreview').hidden=false;notice('')}
+ catch(error){setupAvatar=null;e.target.value='';notice(error.message)}
+};
+async function load(){
+ try{
+  const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store'});
+  const data=await response.json();if(!response.ok)throw new Error(data.error||words.sw.server);
+  if(data.authenticated){location.replace('/index.html');return}
+  setupRequired=!!data.setup_required;
+  $('setupTokenRow').hidden=!data.setup_token_required;
+  $('setupForm').hidden=!setupRequired;$('loginForm').hidden=setupRequired;
+  translate();
+  const params=new URLSearchParams(location.search);
+  if(params.get('error')==='server')notice(words[$('language').value].server);
+ }catch(error){setupRequired=false;$('setupForm').hidden=true;$('loginForm').hidden=true;translate();notice(words[$('language').value].server+' '+error.message)}
+}
+$('setupForm').onsubmit=async e=>{
+ e.preventDefault();const w=words[$('language').value],password=$('password').value;
+ if(password!==$('passwordConfirm').value)return notice(w.mismatch);
+ if(!setupAvatar)return notice(w.needAvatar);
+ const button=$('setupButton');button.disabled=true;
+ try{
+  await post('/api/auth/setup',{username:$('username').value,password,avatar:setupAvatar,setup_token:$('setupToken').value});
+  notice(w.saved);location.replace('/index.html');
+ }catch(error){notice(error.message)}
+ finally{button.disabled=false}
+};
+$('loginForm').onsubmit=async e=>{
+ e.preventDefault();const button=$('loginButton');button.disabled=true;
+ try{
+  await post('/api/auth/login',{username:$('loginUsername').value,password:$('loginPassword').value});
+  $('loginPassword').value='';location.replace('/index.html');
+ }catch(error){notice(error.message)}
+ finally{button.disabled=false}
+};
+load();
+</script>
+</body>
+</html>
