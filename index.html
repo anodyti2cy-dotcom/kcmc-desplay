@@ -68,6 +68,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid #3b82f633;border-color
 #tvst{border-radius:10px;min-width:190px}
 body:not(.authenticated)>*{display:none!important}
 .settings-panel label{display:block;color:#344054;font-weight:650;font-size:13px;margin:13px 0 4px}
+.settings-panel input[type=text]{width:100%;margin-top:0;padding:11px 12px;border:1px solid #d0d5dd;border-radius:8px}
 .settings-panel input[type=file],.settings-panel select{width:100%;margin-top:0;padding:11px 12px}
 .auth-submit{margin-top:16px}
 .settings-modal{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:18px;background:#0f172a88}
@@ -107,14 +108,15 @@ body.theme-blue .c{border-color:#cdddf5;box-shadow:0 10px 28px #16468b12}
  .r>*{flex:1 1 140px}
  .auth-card{padding:22px}
 }
-</style></head><body>
+</style></head><body class="authenticated">
 <div class="top"><div class="l"><img src="nembo.png" alt="" onerror="this.style.display='none'">TAG • KCMC</div>
 <div class="top-right"><div class="top-time"><div id="saa">00:00:00</div><div id="tar"></div></div>
-<div id="profileTools" class="profile-tools" hidden><img id="profileAvatar" alt=""><strong id="profileName"></strong><button class="gy" type="button" onclick="funguaMipangilio()"><i data-lucide="settings-2"></i> Mipangilio</button><button class="red" type="button" onclick="tokaKwenyeAkaunti()">Toka</button></div></div></div>
+<div id="profileTools" class="profile-tools" hidden><img id="profileAvatar" alt=""><strong id="profileName"></strong><button class="gy" type="button" onclick="funguaMipangilio()"><i data-lucide="settings-2"></i> Mipangilio</button></div></div></div>
 <div id="settingsModal" class="settings-modal" hidden>
 <section class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
 <div class="settings-head"><h2 id="settingsTitle">Mipangilio ya akaunti</h2><button type="button" onclick="fungaMipangilio()" aria-label="Funga">✕</button></div>
 <form id="preferencesForm">
+<label for="usernameSetting">Jina lako</label><input id="usernameSetting" type="text" maxlength="32" autocomplete="off">
 <div class="settings-avatar-row"><img id="settingsAvatarPreview" alt="Picha ya wasifu"><label for="settingsAvatar">Badilisha picha ya wasifu<input id="settingsAvatar" type="file" accept="image/jpeg,image/png,image/webp"></label></div>
 <label for="languageSetting">Lugha ya mfumo</label><select id="languageSetting"><option value="sw">Kiswahili</option><option value="en">English</option></select>
 <label for="themeSetting">Mandhari ya mfumo</label><select id="themeSetting"><option value="light">Mwanga</option><option value="dark">Giza</option><option value="blue">Bluu</option></select>
@@ -484,7 +486,7 @@ const lugha={
   '1 Timotheo':'1 Timothy','2 Timotheo':'2 Timothy','Tito':'Titus','Filemoni':'Philemon',
   'Waebrania':'Hebrews','Yakobo':'James','1 Petro':'1 Peter','2 Petro':'2 Peter',
   '1 Yohana':'1 John','2 Yohana':'2 John','3 Yohana':'3 John','Yuda':'Jude','Ufunuo wa Yohana':'Revelation',
-  'Mipangilio imehifadhiwa.':'Settings saved.'
+  'Mipangilio imehifadhiwa.':'Settings saved.','Jina lako':'Your name'
  },
  sw:{}
 };
@@ -522,13 +524,6 @@ const langObserver=new MutationObserver(()=>tumiaLugha(activeProfile?activeProfi
 langObserver.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','title','aria-label']});
 let activeProfile=null,settingsAvatarData=null;
 function settingsNotice(message,ok){const el=$('settingsMessage');el.textContent=message||'';el.style.color=ok?'#16803c':'#b42318'}
-async function apiPost(path,data){
- const response=await fetch(path,{method:'POST',credentials:'same-origin',cache:'no-store',
-  headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
- const result=await response.json();
- if(!response.ok)throw new Error(result.error||'Ombi halikufanikiwa.');
- return result;
-}
 async function somaAvatar(file){
  if(!file)return null;
  if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw new Error('Chagua picha ya JPG, PNG au WebP.');
@@ -542,23 +537,22 @@ async function somaAvatar(file){
 }
 function tumiaWasifu(profile){
  activeProfile=profile;document.body.classList.add('authenticated');$('profileTools').hidden=false;
- $('profileAvatar').src=profile.avatar;$('settingsAvatarPreview').src=profile.avatar;$('profileName').textContent=profile.username;
+ $('profileAvatar').src=profile.avatar;$('settingsAvatarPreview').src=profile.avatar;$('profileName').textContent=profile.username;$('usernameSetting').value=profile.username;
  $('languageSetting').value=profile.language;$('themeSetting').value=profile.theme;
  document.body.classList.remove('theme-light','theme-dark','theme-blue');document.body.classList.add('theme-'+profile.theme);
  tumiaLugha(profile.language);
 }
-async function thibitishaKuingia(){
- try{
-  const response=await fetch('/api/auth/status',{credentials:'same-origin',cache:'no-store'});
-  const data=await response.json();
-  if(!response.ok)throw new Error(data.error||'Imeshindikana kuangalia akaunti.');
-  if(data.authenticated)tumiaWasifu(data.profile);
-  else location.replace('/login.html');
- }catch(error){location.replace('/login.html?error=server')}
-}
+const PROFILE_KEY='kcmcProfile',LANGS=['sw','en'],THEMES=['light','dark','blue'];
+function profileDefault(){return{username:'Mwalimu',avatar:'nembo.png',language:'sw',theme:'light'}}
+function somaWasifu(){const d=profileDefault();try{const p=JSON.parse(localStorage.getItem(PROFILE_KEY)||'null');
+ if(p&&typeof p==='object'){if(typeof p.username==='string'&&p.username.trim())d.username=p.username.trim().slice(0,32);
+  if(typeof p.avatar==='string'&&/^(data:image\/|nembo\.png$)/.test(p.avatar))d.avatar=p.avatar;
+  if(LANGS.includes(p.language))d.language=p.language;if(THEMES.includes(p.theme))d.theme=p.theme}}catch(e){}return d}
+function hifadhiWasifu(p){localStorage.setItem(PROFILE_KEY,JSON.stringify(p))}
+function anzaWasifu(){tumiaWasifu(somaWasifu())}
 function funguaMipangilio(){
  settingsAvatarData=null;$('settingsAvatar').value='';settingsNotice('');
- $('settingsModal').hidden=false;$('languageSetting').value=activeProfile.language;$('themeSetting').value=activeProfile.theme;
+ $('settingsModal').hidden=false;$('usernameSetting').value=activeProfile.username;$('languageSetting').value=activeProfile.language;$('themeSetting').value=activeProfile.theme;
 }
 function fungaMipangilio(){$('settingsModal').hidden=true}
 $('settingsAvatar').onchange=async e=>{
@@ -566,19 +560,16 @@ $('settingsAvatar').onchange=async e=>{
  try{settingsAvatarData=await somaAvatar(file);$('settingsAvatarPreview').src=settingsAvatarData;settingsNotice('Picha mpya iko tayari kuhifadhiwa.',true)}
  catch(error){settingsAvatarData=null;e.target.value='';settingsNotice(error.message)}
 };
-$('preferencesForm').onsubmit=async e=>{
- e.preventDefault();const button=e.submitter;button.disabled=true;
+$('preferencesForm').onsubmit=e=>{
+ e.preventDefault();const button=e.submitter;if(button)button.disabled=true;
  try{
-  const result=await apiPost('/api/profile',{language:$('languageSetting').value,theme:$('themeSetting').value,avatar:settingsAvatarData});
-  tumiaWasifu(result.profile);settingsNotice('Mipangilio imehifadhiwa.',true);setTimeout(fungaMipangilio,500);
- }catch(error){settingsNotice(error.message)}
- finally{button.disabled=false}
+  const p=somaWasifu(),n=$('usernameSetting').value.trim();
+  p.language=$('languageSetting').value;p.theme=$('themeSetting').value;if(n)p.username=n.slice(0,32);if(settingsAvatarData)p.avatar=settingsAvatarData;
+  hifadhiWasifu(p);tumiaWasifu(p);settingsNotice('Mipangilio imehifadhiwa.',true);setTimeout(fungaMipangilio,500)
+ }catch(error){settingsNotice(error&&error.name==='QuotaExceededError'?'Hifadhi ya kivinjari imejaa. Chagua picha ndogo zaidi.':'Imeshindikana kuhifadhi: '+(error&&error.message||error))}
+ finally{if(button)button.disabled=false}
 };
-async function tokaKwenyeAkaunti(){
- try{await apiPost('/api/auth/logout',{});activeProfile=null;location.replace('/login.html')}
- catch(error){alert('Imeshindikana kutoka: '+error.message)}
-}
 $('settingsModal').onclick=e=>{if(e.target===$('settingsModal'))fungaMipangilio()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('settingsModal').hidden)fungaMipangilio()});
-thibitishaKuingia();
+anzaWasifu();
 </script></body></html>

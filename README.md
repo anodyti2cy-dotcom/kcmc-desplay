@@ -1,29 +1,31 @@
 # Mfumo wa TAG KCMC
 
-## Kuanzisha kwenye kompyuta
+Mfumo huu ni tovuti tuli (HTML, CSS na JavaScript). Hauhitaji seva ya Node.js, Python wala hifadhidata. Mipangilio (jina, picha ya wasifu, lugha, mandhari), matangazo, nyimbo na mipangilio ya TV huhifadhiwa kwenye kivinjari (localStorage) cha kompyuta unayotumia.
+
+## Faili za mfumo
+
+- `index.html`: ukurasa wa mwalimu
+- `tv.html`: skrini ya TV (hufunguliwa na kitufe cha **WASHA TV**, mawasiliano kwa BroadcastChannel)
+- `camera.html`: kamera ya simu
+- `biblia.xml`: Biblia ya Kiswahili
+- `tenzi-data.json`: nyimbo (weka kwenye folda ile ile kama zipo)
+- `nembo.png`: nembo
+- `login.html`: inaelekeza kwenye `index.html` tu (kwa viungo vya zamani)
+
+## Kuendesha kwenye kompyuta
 
 1. Hakikisha Python 3 imewekwa.
-2. Endesha `anza.bat`.
-3. Mara ya kwanza, tengeneza akaunti ya mwalimu kwa jina la mtumiaji, nenosiri lenye angalau herufi 10 na picha ya wasifu.
-4. Baadaye, ingia kwa akaunti hiyo. Baada ya kuingia, kitufe cha **WASHA TV** hufungua skrini ya kuonesha.
+2. Bonyeza mara mbili `anza.bat`. Hufungua `http://127.0.0.1:5500/index.html`.
 
-Seva hutumia SQLite na huunda `kanisa.sqlite3` ndani ya folda ya mfumo. Nenosiri halihifadhiwi kama maandishi; seva huhifadhi hash ya PBKDF2. Picha ya wasifu na mapendeleo huhifadhiwa kwenye hifadhidata hiyo. Hifadhi nakala salama ya faili la SQLite pamoja na mradi.
+## Kupeleka kwenye Vercel (kupitia GitHub)
 
-## Mtandao na HTTPS
+1. Pakia faili zote za folda hii kwenye GitHub repository.
+2. Kwenye Vercel, ingiza repository. **Framework Preset**: Other. Acha Build Command na Output Directory wazi.
+3. Deploy. Hakuna Environment Variables zinazohitajika.
 
-Kwa chaguo-msingi, seva husikiliza kwenye `127.0.0.1` pekee. Hii hulinda taarifa za kuingia zisipite kwenye mtandao bila usimbaji fiche. Usibadilishe seva isikilize kwenye anwani ya mtandao bila HTTPS.
+Hakikisha repository haina tena `api/`, `server.py`, `vercel.json` ya zamani (yenye `rewrites` za `/api/...`), `package-lock.json` ya zamani wala `kanisa.sqlite3`.
 
-Kwa matumizi ya vifaa vingine, tumia seva/hosting yenye HTTPS. Ikiwa unaendesha TLS moja kwa moja kupitia seva hii, weka vyeti kabla ya kuanzisha:
+## Kumbuka
 
-```powershell
-$env:KANISA_HOST = "0.0.0.0"
-$env:KANISA_PORT = "5500"
-$env:KANISA_TLS_CERT = "C:\njia\ya\cheti.pem"
-$env:KANISA_TLS_KEY = "C:\njia\ya\ufunguo.pem"
-$env:KANISA_SETUP_TOKEN = ([guid]::NewGuid().ToString("N") + [guid]::NewGuid().ToString("N"))
-python server.py
-```
-
-Ikiwa HTTPS inasimamiwa na reverse proxy, acha seva hii kwenye `127.0.0.1`, weka `KANISA_COOKIE_SECURE=1`, `KANISA_PUBLIC_ORIGIN` iwe origin kamili ya HTTPS (mfano `https://kanisa.example.org`) na weka `KANISA_SETUP_TOKEN` kwa mfano ulio juu. Proxy lazima ielekeze maombi ya programu kwa seva hii.
-
-Msimbo wa `KANISA_SETUP_TOKEN` huhitajika kwa usanidi wa kwanza wa seva inayofikiwa kupitia mtandao; usiushiriki hadharani. Akaunti ya kwanza pekee ndiyo inaweza kuanzishwa, kisha msimbo huo hauhitajiki tena. Akaunti nyingine haziwezi kujisajili. `KANISA_DB_PATH` inaweza kuwekwa ili kuchagua mahali tofauti pa hifadhidata; mfumo huu kwa sasa ni wa akaunti moja ya mwalimu kwa kila hifadhidata.
+- Data huhifadhiwa kwa kila kivinjari na kila anwani (domain). Ukitumia kompyuta au kivinjari kingine, mipangilio na matangazo hayahamii yenyewe.
+- Kamera ya simu inahitaji HTTPS (Vercel hutoa HTTPS moja kwa moja).
