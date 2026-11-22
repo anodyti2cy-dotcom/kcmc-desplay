@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="sw"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="nembo.png" type="image/png">
+<title>Kamera ya Simu - TAG KCMC</title>
+<style>body{margin:0;background:#111;color:#fff;font-family:Arial;padding:16px;text-align:center}
+video{width:100%;max-height:60vh;background:#000;border-radius:10px}input,select,button{width:100%;padding:12px;margin-top:8px;font-size:16px;border-radius:6px;border:0;box-sizing:border-box}
+button{background:#28a745;color:#fff;font-weight:700}#st{margin-top:10px;color:#ffc107}</style></head><body>
+<h3>📱 Kamera ya Simu → TV</h3><video id="v" autoplay muted playsinline></video>
+<input id="code" placeholder="Msimbo wa chumba (kutoka kwa mwalimu)">
+<select id="face"><option value="environment">Kamera ya nyuma</option><option value="user">Kamera ya mbele</option></select>
+<button onclick="anza()">ANZA KUTUMA</button><div id="st"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);let peer,ms;
+$('code').value=localStorage.getItem('rc')||'';
+async function anza(){const c=$('code').value.trim();if(!c)return $('st').textContent='Weka msimbo';localStorage.setItem('rc',c);
+ try{if(ms)ms.getTracks().forEach(t=>t.stop());
+  ms=await navigator.mediaDevices.getUserMedia({video:{facingMode:$('face').value,width:{ideal:1280},height:{ideal:720}},audio:true});
+  $('v').srcObject=ms;if(peer)peer.destroy();peer=new Peer();
+  peer.on('open',()=>{const call=peer.call('tagkcmc-'+c,ms);$('st').textContent='Inatuma... ✔';call.on('close',()=>$('st').textContent='Imekatika')});
+  peer.on('error',e=>$('st').textContent='Kosa: '+e.type)}
+ catch(e){$('st').textContent='Kosa: '+e.message+' (inahitaji HTTPS)'}}
+</script></body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="sw"><head><meta charset="UTF-8"><link rel="icon" href="nembo.png" type="image/png"><title>Skrini ya TV - TAG KCMC</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:#00ff00;display:flex;justify-content:center;align-items:flex-end;box-sizing:border-box;padding-bottom:var(--tkh,0px)}
+body.uwazi{background:transparent}body.giza{background:#000}
+#sl{position:fixed;inset:0 0 var(--tkh,0px) 0;background:#000;z-index:20;display:none;align-items:center;justify-content:center}
+#sl img{max-width:100%;max-height:100%;object-fit:contain}
+#video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;display:none}
+.nembo{position:absolute;top:30px;left:40px;display:flex;align-items:center;gap:10px;font-weight:900;color:#ffc107;font-size:34px;text-shadow:2px 2px 4px #000c;z-index:5}
+.nembo img{height:80px}
+#muda{position:absolute;top:30px;right:40px;text-align:right;background:#0f0f0fd9;backdrop-filter:blur(8px);padding:10px 26px;border-radius:40px;z-index:5;border:1px solid #fff2}
+#saa{font-size:22px;color:#fff;font-weight:700}#tar{font-size:12px;color:#ffc107;font-weight:600;text-transform:uppercase}
+#box{background:linear-gradient(135deg,#0f0f0ff2,#232323e6);border-left:6px solid #ffc107;color:#fff;padding:24px 44px;border-radius:16px;margin-bottom:50px;width:80%;
+box-shadow:0 20px 40px #0009;z-index:10;max-height:48vh;overflow:hidden;opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s}
+body.kamili{align-items:center}body.kamili #box{margin:0;max-height:80vh;text-align:center;border-left:0;border-top:6px solid #ffc107}
+#box.on{opacity:1;transform:none}
+#an{font-size:22px;color:#ffc107;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+#mn{line-height:1.45;word-wrap:break-word;white-space:pre-line}
+#box.wimbo{text-align:center;max-height:70vh}
+.tk-bluu{--b1:#0a2f7a;--b2:#1565c0;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-nyekundu{--b1:#8e0f0f;--b2:#d32f2f;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-kijani{--b1:#0b4d1c;--b2:#2e7d32;--lb:#fff;--lt:#0b4d1c;--tx:#fff;--sp:#ffeb3b;--ts:0 .2vh .5vh #0007}
+.tk-dhahabu{--b1:#0d0d0d;--b2:#2a2a2a;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #000a}
+.tk-zambarau{--b1:#3a0f6b;--b2:#7b1fa2;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-nyeupe{--b1:#ffffff;--b2:#eef2fb;--lb:#0a2f7a;--lt:#fff;--tx:#111;--sp:#d32f2f;--ts:none}
+#tk{position:fixed;left:0;right:0;bottom:0;height:7.5vh;display:none;align-items:stretch;z-index:40;background:linear-gradient(90deg,var(--b1),var(--b2));border-top:.45vh solid var(--sp);box-shadow:0 -.6vh 2.4vh #0008;font-family:'Segoe UI',system-ui,sans-serif}
+.tk-logo{align-self:flex-end;flex:none;width:10.5vh;height:10.5vh;margin:0 1.4vh 0 1.8vh;background:#fff;border:.6vh solid var(--sp);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 .4vh 1.6vh #0009;overflow:hidden}
+.tk-logo img{height:78%;width:78%;object-fit:contain}
+.tk-lbl{flex:none;display:flex;align-items:center;margin:1vh 0;padding:0 2.4vh;background:var(--lb);color:var(--lt);font-weight:900;font-size:3vh;letter-spacing:.25vh;border-radius:.9vh;text-transform:uppercase;box-shadow:0 .3vh 1vh #0005}
+.tk-mq{flex:1;min-width:0;overflow:hidden;display:flex;align-items:center;margin-left:1.6vh;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3vh,#000 calc(100% - 3vh),transparent);mask-image:linear-gradient(90deg,transparent,#000 3vh,#000 calc(100% - 3vh),transparent)}
+.tk-tr{display:flex;flex:none;white-space:nowrap;color:var(--tx);font-weight:700;font-size:3.6vh;text-shadow:var(--ts);will-change:transform}
+.tg{display:flex;flex:none}
+.ti::after{content:'\25C6';margin:0 2.2vh;color:var(--sp);font-size:.6em;vertical-align:middle;text-shadow:none}
+@keyframes tkmv{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style></head><body class="kijani">
+<video id="video" autoplay muted playsinline></video>
+<div id="sl"><img id="slimg" alt=""></div>
+<div class="nembo" id="nembo"><img src="nembo.png" alt="" onerror="this.style.display='none'">KCMC</div>
+<div id="muda"><div id="saa">00:00:00</div><div id="tar"></div></div>
+<div id="box"><div id="an"></div><div id="mn"></div></div>
+<div id="tk" class="tk-bluu"><div class="tk-logo"><img src="nembo.png" alt="" onerror="this.parentElement.style.display='none'"></div><div class="tk-lbl" id="tklbl">MATANGAZO</div><div class="tk-mq"><div class="tk-tr" id="tktr"></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+<script>
+const ch=new BroadcastChannel('tv_channel'),$=id=>document.getElementById(id);
+let urls=[],S={size:36},peer=null,peerCode='',cur=null,stream=null;
+function fit(){const m=$('mn');let s=S.size;m.style.fontSize=s+'px';
+ while(s>18&&$('box').scrollHeight>$('box').clientHeight+1){s-=2;m.style.fontSize=s+'px'}}
+function onyesha(d){$('box').classList.toggle('wimbo',!!d.wimbo);$('an').textContent=d.anuani;$('mn').textContent=d.maneno;fit();$('box').classList.add('on')}
+function video(ms){$('video').srcObject=ms;$('video').style.display=ms?'block':'none'}
+async function kamera(){
+ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+ if(S.kam!=='simu'&&peer){peer.destroy();peer=null;peerCode=''}
+ if(S.kam==='device'&&S.dev){try{stream=await navigator.mediaDevices.getUserMedia({video:{deviceId:{exact:S.dev}}});video(stream)}catch(e){console.error(e)}}
+ else if(S.kam==='simu'&&S.code&&typeof Peer!=='undefined'){
+  if(peerCode!==S.code){if(peer)peer.destroy();peerCode=S.code;peer=new Peer('tagkcmc-'+S.code);
+   peer.on('call',c=>{c.answer();c.on('stream',s=>video(s))});}}
+ else video(null)}
+let tkKey='';
+function tk(s){const L=(s.tk_list||[]).map(x=>String(x).trim()).filter(Boolean),on=!!s.tk_on&&L.length>0,bar=$('tk');
+ document.documentElement.style.setProperty('--tkh',on?'7.5vh':'0px');bar.style.display=on?'flex':'none';
+ if(!on){tkKey='';$('tktr').innerHTML='';return}
+ bar.className='tk-'+(s.tk_theme||'bluu');$('tklbl').textContent=(s.tk_label||'MATANGAZO').trim()||'MATANGAZO';
+ const key=JSON.stringify([L,s.tk_speed,$('tklbl').textContent,innerWidth,innerHeight]);if(key===tkKey)return;tkKey=key;
+ const tr=$('tktr'),mq=tr.parentElement,g=document.createElement('div');g.className='tg';tr.style.animation='none';tr.innerHTML='';tr.appendChild(g);
+ const add=()=>L.forEach(x=>{const i=document.createElement('span');i.className='ti';i.textContent=x;g.appendChild(i)});add();
+ for(let n=0;g.offsetWidth<mq.clientWidth&&n<40;n++)add();
+ tr.appendChild(g.cloneNode(true));
+ const v=({pole:70,kawaida:110,haraka:170}[s.tk_speed]||110)*innerHeight/1080;
+ tr.style.animation='tkmv '+(g.offsetWidth/v).toFixed(2)+'s linear infinite'}
+addEventListener('resize',()=>{tkKey='';tk(S)});
+function tumia(s){const o=JSON.stringify([S.kam,S.dev,S.code]);S=s;
+ document.body.className=s.bg+' '+s.layout;$('saa').parentElement.style.display=s.saa_on?'block':'none';
+ $('nembo').style.display=s.nembo_on?'flex':'none';tk(s);if(cur)fit();
+ if(o!==JSON.stringify([s.kam,s.dev,s.code]))kamera()}
+ch.onmessage=e=>{const d=e.data;
+ if(d.mfumo==='settings')tumia(d.s);
+ else if(d.mfumo==='deck'){urls.forEach(u=>URL.revokeObjectURL(u));urls=d.picha.map(b=>URL.createObjectURL(b))}
+ else if(d.mfumo==='slide'){if(!urls[d.i])return;cur=null;$('box').classList.remove('on');$('slimg').src=urls[d.i];$('sl').style.display='flex'}
+ else if(d.mfumo==='slideoff')$('sl').style.display='none';
+ else if(d.mfumo==='show'){cur=d;$('sl').style.display='none';if($('box').classList.contains('on')){$('box').classList.remove('on');setTimeout(()=>onyesha(d),250)}else onyesha(d)}
+ else if(d.mfumo==='clear'){cur=null;$('box').classList.remove('on')}};
+ch.postMessage({mfumo:'hello'});
+function saa(){const n=new Date(),p=x=>String(x).padStart(2,'0');$('saa').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+ $('tar').textContent=["Jumapili","Jumatatu","Jumanne","Jumatano","Alhamisi","Ijumaa","Jumamosi"][n.getDay()]+', '+p(n.getDate())+' '+["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ago","Sep","Okt","Nov","Des"][n.getMonth()]}
+setInterval(saa,1000);saa();
+</script></body></html>

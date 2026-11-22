@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="sw"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="nembo.png" type="image/png">
+<title>Mwalimu - TAG KCMC Projector</title>
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef0f5;color:#222;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;background:#1e1e24;color:#fff;padding:10px 24px;border-radius:10px;margin-bottom:16px}
+.top .l{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:900;color:#ffc107}.top img{height:44px}
+#saa{font-size:22px;font-weight:700;text-align:right}#tar{font-size:12px;color:#ffc107;text-transform:uppercase;text-align:right}
+.g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}@media(max-width:900px){.g{grid-template-columns:1fr}}
+.c{min-width:0;background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 10px #0001}
+h2{margin:0 0 10px;font-size:17px;border-bottom:2px solid #eee;padding-bottom:6px}
+label{font-size:13px;font-weight:600;color:#666;display:block;margin-top:8px}
+select,input[type=text],button{width:100%;padding:10px;font-size:15px;border-radius:6px;border:1px solid #ccc;margin-top:4px}
+button{background:#007bff;color:#fff;border:0;font-weight:700;cursor:pointer}button:hover{filter:brightness(.92)}
+.r{display:flex;gap:8px}.r>*{flex:1;min-width:0}.red{background:#dc3545}.gr{background:#28a745}.gy{background:#6c757d}
+.pv{background:#151515;color:#fff;border-left:6px solid #ffc107;border-radius:8px;padding:16px;min-height:150px}
+.pv b{color:#ffc107;font-size:18px;display:block;margin-bottom:6px}.pv p{margin:0;font-size:20px;line-height:1.45}
+#orodha{max-height:190px;overflow:auto;display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+#orodha span{padding:5px 10px;background:#eef0f5;border-radius:5px;cursor:pointer;font-weight:600}
+#orodha span.on{background:#ffc107}#hist div{padding:6px;border-bottom:1px solid #eee;cursor:pointer;font-size:14px}
+.chk{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px}.chk input{width:auto}
+.mb{display:flex;gap:10px;align-items:center;margin-bottom:16px}.mb button{width:auto;flex:1;font-size:18px;padding:14px;background:#6c757d;margin:0}.mb button.on{background:#ffc107;color:#000;box-shadow:0 0 0 3px #1e1e24}
+#tvst{flex:1.3;background:#1e1e24;color:#ffc107;padding:14px;border-radius:6px;font-weight:700;font-size:15px}
+textarea{width:100%;padding:10px;font-size:15px;border:1px solid #ccc;border-radius:6px;margin-top:4px;font-family:inherit;resize:vertical}
+#wl{max-height:220px;overflow:auto;margin-top:6px;border:1px solid #eee;border-radius:6px}#wl div{padding:7px 10px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:14px}#wl div.on{background:#fff3cd;font-weight:700}#wl .wrow{display:flex;align-items:center;gap:8px}#wl .wtitle{flex:1;min-width:0}#wl .wpush{width:auto;flex:none;margin:0;padding:5px 8px;font-size:12px}
+#wb{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}#wb span{padding:7px 12px;background:#eef0f5;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px}#wb span.k{background:#dbeafe}#wb span.on{background:#ffc107}
+small{color:#777;display:block;margin-top:6px}
+.lucide{width:1em;height:1em;vertical-align:-0.125em;stroke-width:2.2}
+#saa{font-variant-numeric:tabular-nums}.mb button .lucide{width:1.15em;height:1.15em;margin-right:6px}
+#th{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px;max-height:260px;overflow:auto}
+#th div{position:relative;cursor:pointer;border:3px solid transparent;border-radius:6px;background:#000}#th div.on{border-color:#ffc107}
+#th img{width:100%;display:block;border-radius:3px}#th b{position:absolute;left:4px;top:2px;background:#000a;color:#fff;font-size:12px;padding:1px 6px;border-radius:4px}
+.tk-bluu{--b1:#0a2f7a;--b2:#1565c0;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-nyekundu{--b1:#8e0f0f;--b2:#d32f2f;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-kijani{--b1:#0b4d1c;--b2:#2e7d32;--lb:#fff;--lt:#0b4d1c;--tx:#fff;--sp:#ffeb3b;--ts:0 .2vh .5vh #0007}
+.tk-dhahabu{--b1:#0d0d0d;--b2:#2a2a2a;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #000a}
+.tk-zambarau{--b1:#3a0f6b;--b2:#7b1fa2;--lb:#ffc107;--lt:#111;--tx:#fff;--sp:#ffc107;--ts:0 .2vh .5vh #0007}
+.tk-nyeupe{--b1:#ffffff;--b2:#eef2fb;--lb:#0a2f7a;--lt:#fff;--tx:#111;--sp:#d32f2f;--ts:none}
+.tkp{display:flex;align-items:center;gap:10px;width:100%;min-width:0;margin-top:10px;padding:10px 12px;border-radius:8px;background:linear-gradient(90deg,var(--b1),var(--b2));color:var(--tx);font-weight:700;overflow:hidden;white-space:nowrap}.tkp b{flex:0 1 auto;min-width:0;max-width:35%;overflow:hidden;text-overflow:ellipsis;background:var(--lb);color:var(--lt);padding:5px 12px;border-radius:5px;font-size:12px;letter-spacing:1px}.tkp span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.tkc{align-self:start;min-width:0}
+.tkdz{border:2px dashed #007bff;border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;background:#f4f9ff;margin-top:6px;font-size:15px}.tkdz:hover,.tkdz.ov{background:#e1efff}.tkdz b{color:#007bff;display:block}
+#tkmeta{margin-top:8px;font-size:13px;color:#444;font-weight:600;word-break:break-word}
+#tkmsg{display:none;margin-top:6px;font-size:13px;font-weight:600;line-height:1.4}
+#tkl{max-height:260px;overflow-y:auto;margin-top:8px;border-top:1px solid #eee}
+.tki{display:flex;gap:6px;align-items:flex-start;padding:6px 0;border-bottom:1px solid #eee}.tki.off textarea{opacity:.45;text-decoration:line-through}
+.tki input[type=checkbox]{margin:10px 0 0;flex:none}.tki b{flex:none;min-width:22px;text-align:right;margin-top:8px;color:#007bff}
+.tki textarea{flex:1;min-width:0;max-height:120px;margin:0;min-height:36px;resize:none;overflow:auto;line-height:1.35;padding:6px 8px;font-size:14px}
+.tki button{width:auto;flex:none;margin:0;padding:6px 10px;background:#dc3545}
+</style></head><body>
+<div class="top"><div class="l"><img src="nembo.png" alt="" onerror="this.style.display='none'">TAG • KCMC</div>
+<div><div id="saa">00:00:00</div><div id="tar"></div></div></div>
+<div class="mb"><button id="mB" class="on" onclick="setModi('biblia')"><i data-lucide="book-open"></i> BIBLIA</button><button id="mS" onclick="setModi('slaidi')"><i data-lucide="presentation"></i> SLAIDI</button><button id="mW" onclick="setModi('wimbo')"><i data-lucide="music"></i> NYIMBO</button><div id="tvst"><i data-lucide="monitor"></i> TV: hakuna kinachoonyeshwa</div></div>
+<div class="g">
+<div class="c"><h2><i data-lucide="book-open"></i> Mistari ya Biblia</h2>
+<label>Tafuta haraka (mfano: Yoh 3:16, 1 Kor 13:4)</label>
+<input type="text" id="tafuta" placeholder="Andika rejea kisha Enter"><small id="bst">⏳ Inapakia biblia.xml...</small>
+<div class="r"><div><label>Kitabu</label><select id="kitabu"></select></div>
+<div><label>Sura</label><select id="sura"></select></div><div><label>Aya</label><select id="aya"></select></div></div>
+<div id="orodha"></div>
+<div class="r" style="margin-top:10px"><button class="gy" onclick="nenda(-1)">◀ Iliyotangulia</button><button class="gy" onclick="nenda(1)">Inayofuata ▶</button></div>
+<div class="r"><button class="gr" onclick="rusha()">RUSHA KWENYE TV</button><button class="red" onclick="ondoa()">ONDOA</button></div>
+<div class="chk"><input type="checkbox" id="auto" checked><span>Rusha moja kwa moja ninapobadilisha aya</span></div>
+<small>Kibodi hufuata hali iliyochaguliwa juu (Biblia/Slaidi): ← → au PageUp/PageDown = kusogea, Enter = rusha, Esc = ondoa</small></div>
+
+<div><div class="c"><h2><i data-lucide="monitor-check"></i> Uhakiki</h2><div class="pv"><b id="pk"></b><p id="pm"></p></div></div>
+<div class="c" style="margin-top:16px"><h2><i data-lucide="settings"></i> Mpangilio wa TV</h2>
+<div class="r"><div><label>Mandhari</label><select id="bg"><option value="chroma">Kijani (OBS Chroma Key)</option><option value="uwazi">Uwazi (OBS Browser Source)</option><option value="giza">Nyeusi (Projekta)</option></select></div>
+<div><label>Mpangilio</label><select id="layout"><option value="chini">Chini ya skrini</option><option value="kamili">Skrini nzima (katikati)</option></select></div></div>
+<label>Ukubwa wa herufi: <span id="szv"></span>px</label><input type="range" id="size" min="22" max="80" style="width:100%">
+<div class="r"><div class="chk"><input type="checkbox" id="saa_on"><span>Onyesha saa</span></div><div class="chk"><input type="checkbox" id="nembo_on"><span>Onyesha nembo</span></div></div></div></div>
+
+<div class="c tkc"><h2><i data-lucide="megaphone"></i> Matangazo ya Siku (mstari unaopita chini ya TV)</h2>
+<div class="chk"><input type="checkbox" id="tk_on"><span>Onyesha mstari wa matangazo kwenye TV</span></div>
+<div class="tkdz" id="tkdz"><b id="tkdzt">📄 Bofya hapa kupakia PDF ya Matangazo</b><small>au buruta faili ya PDF ndani ya eneo hili. Kila tangazo lianze na namba (1. 2. 3. ...)</small></div>
+<input type="file" id="tk_file" accept="application/pdf,.pdf" hidden>
+<div id="tkmeta"></div><div id="tkmsg"></div>
+<div id="tkl"></div>
+<div class="r"><div><label>Kichwa cha mstari</label><input type="text" id="tk_label" maxlength="24"></div>
+<div><label>Mandhari ya mstari (rangi)</label><select id="tk_theme"><option value="bluu">Bluu ya Kifalme</option><option value="nyekundu">Nyekundu (TAG)</option><option value="kijani">Kijani</option><option value="dhahabu">Nyeusi na Dhahabu</option><option value="zambarau">Zambarau</option><option value="nyeupe">Nyeupe na Bluu</option></select></div>
+<div><label>Kasi</label><select id="tk_speed"><option value="pole">Polepole</option><option value="kawaida">Kawaida</option><option value="haraka">Haraka</option></select></div></div>
+<div class="tkp tk-bluu" id="tkpv"><b id="tkpl">MATANGAZO</b><span id="tkpt"></span></div>
+<button class="red" style="margin-top:10px" onclick="tkFuta()">🗑 Futa matangazo yote</button>
+<small>Mabadiliko yanaonekana kwenye TV mara moja na yanahifadhiwa kwenye kivinjari hiki. Kumbuka kufuta matangazo ya wiki iliyopita.</small></div>
+<div class="c"><h2><i data-lucide="video"></i> Kamera / Live Streaming</h2>
+<label>Chanzo cha kamera kwenye TV</label>
+<select id="kam"><option value="none">Hakuna</option><option value="device">Kamera ya kompyuta / DroidCam / Iriun</option><option value="simu">Kamera ya simu (WebRTC)</option></select>
+<div id="bd" style="display:none"><button class="gy" onclick="tafutaKamera()">Tafuta kamera</button><select id="dev"></select></div>
+<div id="bs" style="display:none"><label>Msimbo wa chumba (herufi/namba, mf. kcmc2026)</label><input type="text" id="code"><small>Kwenye simu fungua <b>camera.html</b> (ukurasa uliowekwa mtandaoni kwa HTTPS), weka msimbo huo huo, bonyeza "Anza".</small></div>
+<small>Kwa OBS: ongeza tv.html kama Browser Source (mandhari "Uwazi"), na kamera kama Video Capture Device chini yake.</small></div>
+<div class="c"><h2><i data-lucide="presentation"></i> Slaidi (Presentation)</h2>
+<label>Pakia slaidi (PDF au picha PNG/JPG, unaweza kuchagua nyingi)</label>
+<input type="file" id="faili" accept="application/pdf,image/*" multiple>
+<small id="slst">Hakuna slaidi zilizopakiwa. PowerPoint: tumia File → Export → PDF kwanza.</small>
+<div class="r" style="margin-top:8px"><button class="gy" onclick="sNenda(-1)">◀ Slaidi iliyotangulia</button><button class="gy" onclick="sNenda(1)">Inayofuata ▶</button></div>
+<div class="r"><button class="gr" onclick="onyeshaSlaidi(Math.max(si,0))">ONYESHA SLAIDI</button><button class="red" onclick="ondoaSlaidi()">ONDOA SLAIDI</button></div>
+<div class="r">
+<div><label>Cheza otomatiki (sekunde)</label><input type="text" id="sek" value="8"></div></div>
+<button class="gy" id="cheza" onclick="chezaOto()">▶ Anza kucheza otomatiki</button>
+<div id="th"></div></div>
+<div class="c"><h2><i data-lucide="circle-dot"></i> Rekodi ibada (hifadhi video)</h2>
+<small style="margin-top:0">Inarekodi dirisha la TV (kamera + aya + slaidi) na kuhifadhi faili ya video kwenye PC.</small>
+<button class="gy" id="rkF" onclick="rekodiFaili()">1) Chagua mahali pa kuhifadhi (inapendekezwa)</button>
+<div class="chk"><input type="checkbox" id="rkAud" checked><span>Rekodi sauti ya maikrofoni/mixer (chaguo-msingi la Windows)</span></div>
+<div class="r"><button class="gr" id="rkS" onclick="anzaRekodi()">2) ⏺ ANZA KUREKODI</button><button class="red" id="rkE" onclick="simamishaRekodi()" disabled>⏹ SIMAMISHA</button></div>
+<div id="rkSt" style="margin-top:8px;font-weight:700">Haijarekodi.</div>
+<small>Ukibofya ANZA, chagua <b>dirisha la TV</b> (au skrini ya TV nzima). Usichague ukurasa wa mwalimu.</small></div>
+<div class="c"><h2><i data-lucide="music-2"></i> Tenzi za Rohoni / Nyimbo</h2>
+<input type="text" id="wt" placeholder="Tafuta kwa namba au jina la wimbo...">
+<small id="wst">Inapakia tenzi...</small>
+<div id="wl"></div>
+<div class="r"><div><label>Namba</label><input type="text" id="wn"></div><div style="flex:3"><label>Kichwa cha wimbo</label><input type="text" id="wk"></div></div>
+<label>Maneno: acha mstari tupu kati ya beti. Kiitikio kianze na neno "Kiitikio:"</label>
+<textarea id="wx" rows="9"></textarea>
+<div class="r"><button class="gr" onclick="wHifadhi()">💾 Hifadhi</button><button class="gy" onclick="wMpya()">➕ Mpya</button><button class="red" onclick="wFuta()">🗑 Futa</button></div>
+<div class="chk"><input type="checkbox" id="rud" checked><span>Rudia kiitikio baada ya kila ubeti</span></div>
+<div id="wb"></div>
+<div class="r" style="margin-top:8px"><button class="gy" onclick="ubNenda(-1)">◀ Iliyotangulia</button><button class="gy" onclick="ubNenda(1)">Inayofuata ▶</button></div>
+<div class="r"><button class="gr" onclick="onyeshaUbeti(Math.max(ub,0))">ONYESHA TV</button><button class="red" onclick="ondoa()">ONDOA</button></div>
+<div class="r"><button class="gy" onclick="wExport()">⬇ Hifadhi nakala (JSON)</button><div><input type="file" id="wi" accept=".json,.txt" style="margin-top:4px"></div></div>
+<a href="https://www.scribd.com/document/922988492/Tenzi-Za-Rohoni" target="_blank" rel="noopener noreferrer" class="gy" style="display:block;margin-top:8px;padding:10px;border-radius:6px;color:#fff;text-align:center;text-decoration:none;font-weight:700">📖 Fungua Tenzi za Rohoni kwenye Scribd</a>
+<small>Nyimbo zinahifadhiwa kwenye kivinjari hiki. Hifadhi nakala mara kwa mara. Import inakubali JSON au faili la .txt lenye muundo: <b>### 12 | Jina la wimbo</b> kisha maneno.</small></div>
+<div class="c"><h2>🕘 Historia</h2><div id="hist"></div></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const ch=new BroadcastChannel('tv_channel');let xml,hist=[];
+const J="Mwanzo,Kutoka,Mambo ya Walawi,Hesabu,Kumbukumbu la Torati,Yoshua,Waamuzi,Ruthu,1 Samweli,2 Samweli,1 Wafalme,2 Wafalme,1 Mambo ya Nyakati,2 Mambo ya Nyakati,Ezra,Nehemia,Esta,Ayubu,Zaburi,Mithali,Mhubiri,Wimbo Ulio Bora,Isaya,Yeremia,Maombolezo,Ezekieli,Danieli,Hosea,Yoeli,Amosi,Obadia,Yona,Mika,Nahumu,Habakuki,Sefania,Hagai,Zekaria,Malaki,Mathayo,Marko,Luka,Yohana,Matendo ya Mitume,Warumi,1 Wakorintho,2 Wakorintho,Wagalatia,Waefeso,Wafilipi,Wakolosai,1 Wathesalonike,2 Wathesalonike,1 Timotheo,2 Timotheo,Tito,Filemoni,Waebrania,Yakobo,1 Petro,2 Petro,1 Yohana,2 Yohana,3 Yohana,Yuda,Ufunuo wa Yohana".split(",");
+const $=id=>document.getElementById(id);
+let S=Object.assign({bg:'chroma',layout:'chini',size:36,saa_on:true,nembo_on:true,tk_on:true,tk_theme:'bluu',tk_speed:'kawaida',tk_label:'MATANGAZO',tk_list:[],tk_items:null,tk_pdf:null,kam:'none',dev:'',code:'kcmc'+Math.floor(Math.random()*9000+1000)},JSON.parse(localStorage.getItem('tvS')||'{}'));
+const nodes=()=>({b:xml.querySelector(`book[number="${$('kitabu').value}"]`)});
+function yuklaXml(t){xml=new DOMParser().parseFromString(t.replace(/^\uFEFF/,''),'text/xml');
+ $('kitabu').innerHTML='';xml.querySelectorAll('book').forEach(b=>{const n=b.getAttribute('number');$('kitabu').add(new Option(J[n-1]||'Kitabu '+n,n))});
+ if(!$('kitabu').options.length)throw new Error('Faili halina vitabu (<book>). Hiyo si biblia.xml sahihi.');
+ sura();$('bst').textContent='✔ Biblia imepakiwa: vitabu '+$('kitabu').options.length}
+function chaguaMwenyewe(){$('bst').innerHTML='<b style="color:#dc3545">❌ biblia.xml haikupatikana kwenye seva.</b><br>Chagua faili mwenyewe: <input type="file" id="bx" accept=".xml,text/xml">';
+ $('bx').onchange=async e=>{try{yuklaXml(await e.target.files[0].text())}catch(err){alert(err.message)}}}
+fetch('biblia.xml').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}).then(yuklaXml).catch(chaguaMwenyewe);
+function sura(keep){const b=xml.querySelector(`book[number="${$('kitabu').value}"]`);$('sura').innerHTML='';
+ b.querySelectorAll('chapter').forEach(c=>$('sura').add(new Option(c.getAttribute('number'),c.getAttribute('number'))));aya(keep)}
+function aya(keep){const c=xml.querySelector(`book[number="${$('kitabu').value}"] chapter[number="${$('sura').value}"]`);
+ $('aya').innerHTML='';const o=$('orodha');o.innerHTML='';
+ c.querySelectorAll('verse').forEach(v=>{const n=v.getAttribute('number');$('aya').add(new Option(n,n));
+  const s=document.createElement('span');s.textContent=n;s.onclick=()=>{$('aya').value=n;badilika()};o.appendChild(s)});
+ if(keep)$('aya').value=keep;badilika()}
+function mst(){const v=xml.querySelector(`book[number="${$('kitabu').value}"] chapter[number="${$('sura').value}"] verse[number="${$('aya').value}"]`);
+ return{anuani:$('kitabu').selectedOptions[0].text+' '+$('sura').value+':'+$('aya').value,maneno:v?v.textContent.trim():''}}
+function badilika(){const m=mst();$('pk').textContent=m.anuani;$('pm').textContent=m.maneno;
+ [...$('orodha').children].forEach(s=>s.classList.toggle('on',s.textContent===$('aya').value));
+ if($('auto').checked&&(hewa||slOn||wbOn))rusha();}
+let hewa=false;
+function rusha(){const m=mst();hewa=true;slOn=false;wbOn=false;wMark();markSl();modiUi('biblia');tvSt('📖 '+m.anuani);ch.postMessage({mfumo:'show',...m});
+ if(hist[0]?.anuani!==m.anuani){hist.unshift(m);hist=hist.slice(0,10);
+ $('hist').innerHTML='';hist.forEach(h=>{const d=document.createElement('div');d.textContent='▶ '+h.anuani;d.onclick=()=>ch.postMessage({mfumo:'show',...h});$('hist').appendChild(d)})}}
+function ondoa(){hewa=false;slOn=false;wbOn=false;wMark();markSl();tvSt('hakuna kinachoonyeshwa');ch.postMessage({mfumo:'clear'})}
+function nenda(d){const a=$('aya'),su=$('sura'),k=$('kitabu');const i=a.selectedIndex+d;
+ if(i>=0&&i<a.options.length)a.selectedIndex=i;
+ else if(d>0&&su.selectedIndex<su.options.length-1){su.selectedIndex++;return aya()}
+ else if(d>0&&k.selectedIndex<k.options.length-1){k.selectedIndex++;return sura()}
+ else if(d<0&&su.selectedIndex>0){su.selectedIndex--;aya();a.selectedIndex=a.options.length-1;return badilika()}
+ badilika()}
+$('kitabu').onchange=()=>{sura();document.activeElement.blur()};$('sura').onchange=()=>{aya();document.activeElement.blur()};$('aya').onchange=()=>{badilika();document.activeElement.blur()};
+const nz=s=>s.toLowerCase().replace(/[^a-z0-9]/g,'');
+$('tafuta').onkeydown=e=>{if(e.key!=='Enter')return;e.stopPropagation();
+ const m=$('tafuta').value.trim().match(/^(\d?\s*[A-Za-z]+(?:\s+[A-Za-z]+)*)\s*(\d+)(?:\s*[:.,]\s*|\s+)?(\d+)?$/);
+ if(!m)return alert('Andika mfano: Yoh 3:16');const q=nz(m[1]);
+ const i=J.findIndex(n=>nz(n).startsWith(q));if(i<0)return alert('Kitabu hakijapatikana');
+ $('kitabu').value=i+1;sura();$('sura').value=m[2];if($('sura').value!==m[2])return alert('Sura haipo');aya(m[3]||'1');rusha()};
+document.addEventListener('keydown',e=>{if(modi==='wimbo'&&!(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.type!=='checkbox'&&e.target.type!=='range')){const k=e.key;
+ if(['ArrowRight','PageDown','ArrowDown',' '].includes(k)){e.preventDefault();ubNenda(1)}else if(['ArrowLeft','PageUp','ArrowUp'].includes(k)){e.preventDefault();ubNenda(-1)}
+ else if(k==='Enter')onyeshaUbeti(Math.max(ub,0));else if(k==='Escape')ondoa();return}
+if(modi==='slaidi'&&!(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.type!=='checkbox'&&e.target.type!=='range')){const k=e.key;
+ if(['ArrowRight','PageDown','ArrowDown',' '].includes(k)){e.preventDefault();sNenda(1)}else if(['ArrowLeft','PageUp','ArrowUp'].includes(k)){e.preventDefault();sNenda(-1)}
+ else if(k==='Enter')onyeshaSlaidi(Math.max(si,0));else if(k==='Escape')ondoaSlaidi();return}
+if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.type!=='checkbox'&&e.target.type!=='range')return;
+ if(e.key==='ArrowRight'||e.key==='PageDown'||e.key==='ArrowDown'){e.preventDefault();nenda(1)}
+ else if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='ArrowUp'){e.preventDefault();nenda(-1)}
+ else if(e.key==='Enter')rusha();else if(e.key==='Escape')ondoa()});
+// ===== SLAIDI =====
+let sl=[],si=-1,slOn=false,modi='biblia',oto=null;
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const toBlob=c=>new Promise(r=>c.toBlob(r,'image/jpeg',.88));
+async function kutokaPicha(f){const bm=await createImageBitmap(f),k=Math.min(1,1920/bm.width,1080/bm.height);
+ const c=document.createElement('canvas');c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);return toBlob(c)}
+async function kutokaPdf(f,out){if(!window.pdfjsLib)throw new Error('Maktaba ya PDF haijapakiwa (hakuna intaneti). Tumia picha PNG/JPG.');const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+ for(let n=1;n<=pdf.numPages;n++){$('slst').textContent='Inasoma '+f.name+' ukurasa '+n+'/'+pdf.numPages+'...';
+  const p=await pdf.getPage(n),v1=p.getViewport({scale:1}),k=Math.min(1920/v1.width,1080/v1.height)*1.0,v=p.getViewport({scale:k});
+  const c=document.createElement('canvas');c.width=Math.round(v.width);c.height=Math.round(v.height);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);await p.render({canvasContext:x,viewport:v}).promise;out.push(await toBlob(c))}}
+$('faili').onchange=async e=>{const fs=[...e.target.files].sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));if(!fs.length)return;
+ const out=[];try{for(const f of fs){if(f.type==='application/pdf')await kutokaPdf(f,out);else if(f.type.startsWith('image/')){$('slst').textContent='Inasoma '+f.name+'...';out.push(await kutokaPicha(f))}}}
+ catch(err){return $('slst').textContent='Kosa: '+err.message}
+ sl=out;si=-1;slOn=false;$('slst').textContent='Slaidi '+sl.length+' zimepakiwa tayari ✔';
+ $('th').innerHTML='';sl.forEach((b,n)=>{const d=document.createElement('div'),im=new Image();im.src=URL.createObjectURL(b);d.append(im);
+  const t=document.createElement('b');t.textContent=n+1;d.append(t);d.onclick=()=>onyeshaSlaidi(n);$('th').appendChild(d)});
+ ch.postMessage({mfumo:'deck',picha:sl})};
+function markSl(){[...$('th').children].forEach((d,n)=>d.classList.toggle('on',slOn&&n===si))}
+function onyeshaSlaidi(n){if(!sl.length)return alert('Pakia slaidi kwanza');si=Math.max(0,Math.min(sl.length-1,n));slOn=true;hewa=false;wbOn=false;wMark();modiUi('slaidi');tvSt('🖼 Slaidi '+(si+1)+'/'+sl.length);
+ ch.postMessage({mfumo:'slide',i:si});markSl();$('th').children[si]?.scrollIntoView({block:'nearest'})}
+function sNenda(d){if(!sl.length)return;onyeshaSlaidi(slOn?si+d:(si<0?0:si))}
+function ondoaSlaidi(){slOn=false;markSl();tvSt('hakuna kinachoonyeshwa');ch.postMessage({mfumo:'slideoff'})}
+function chezaOto(){if(oto){clearInterval(oto);oto=null;$('cheza').textContent='▶ Anza kucheza otomatiki';return}
+ if(!sl.length)return alert('Pakia slaidi kwanza');const s=Math.max(2,+$('sek').value||8);onyeshaSlaidi(si<0?0:si);
+ oto=setInterval(()=>onyeshaSlaidi(si+1>=sl.length?0:si+1),s*1000);$('cheza').textContent='⏸ Simamisha kucheza'}
+function modiUi(m){modi=m;$('mW').classList.toggle('on',m==='wimbo');$('mB').classList.toggle('on',m==='biblia');$('mS').classList.toggle('on',m==='slaidi')}
+function setModi(m){modiUi(m);if(m==='biblia')rusha();else if(m==='wimbo'){if(wsq.length)onyeshaUbeti(Math.max(ub,0));else $('wb').innerHTML='<small>Chagua wimbo kwanza ✋</small>'}else if(sl.length)onyeshaSlaidi(Math.max(si,0));else $('slst').textContent='Pakia slaidi kwanza ✋'}
+function tvSt(t){$('tvst').textContent='TV: '+t}
+document.addEventListener('click',e=>{if(e.target.tagName==='BUTTON')e.target.blur()});
+// ===== REKODI =====
+let rec=null,rkW=null,rkCh=[],rkBytes=0,rkT0=0,rkTick=null,rkTr=[];
+async function rekodiFaili(){if(!window.showSaveFilePicker)return alert('Kivinjari hiki hakiauni uhifadhi wa moja kwa moja. Rekodi itahifadhiwa mwishoni.');
+ try{const h=await showSaveFilePicker({suggestedName:'ibada-'+new Date().toISOString().slice(0,16).replace(/[:T]/g,'-')+'.webm',types:[{description:'Video',accept:{'video/webm':['.webm']}}]});
+  rkW=await h.createWritable();$('rkSt').textContent='Faili tayari: '+h.name+'. Sasa bonyeza ANZA KUREKODI.'}catch(e){}}
+async function anzaRekodi(){if(rec)return;let tr=[];
+ try{const d=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:30},audio:false});tr=[...d.getVideoTracks()];
+  if($('rkAud').checked){try{tr.push(...(await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false}})).getAudioTracks())}catch(e){alert('Sauti haikupatikana ('+e.message+'). Itarekodi video pekee.')}}
+  const mt=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+  rkTr=tr;rkCh=[];rkBytes=0;rec=new MediaRecorder(new MediaStream(tr),{mimeType:mt,videoBitsPerSecond:4000000});
+  rec.ondataavailable=e=>{if(!e.data.size)return;rkBytes+=e.data.size;if(rkW)rkW.write(e.data);else rkCh.push(e.data)};
+  rec.onstop=async()=>{clearInterval(rkTick);rkTr.forEach(t=>t.stop());
+   if(rkW){await rkW.close();rkW=null;$('rkSt').textContent='✔ Imehifadhiwa ('+(rkBytes/1048576).toFixed(0)+' MB).'}
+   else if(rkCh.length){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(rkCh,{type:'video/webm'}));a.download='ibada-'+Date.now()+'.webm';a.click();$('rkSt').textContent='✔ Imehifadhiwa kwenye Downloads.'}
+   rec=null;$('rkS').disabled=false;$('rkE').disabled=true};
+  tr[0].onended=simamishaRekodi;rec.start(4000);rkT0=Date.now();$('rkS').disabled=true;$('rkE').disabled=false;
+  rkTick=setInterval(()=>{const t=Math.floor((Date.now()-rkT0)/1000),p=x=>String(x).padStart(2,'0');$('rkSt').textContent='🔴 Inarekodi '+p(Math.floor(t/3600))+':'+p(Math.floor(t/60)%60)+':'+p(t%60)+' • '+(rkBytes/1048576).toFixed(0)+' MB'},1000)}
+ catch(e){tr.forEach(t=>t.stop());rec=null;$('rkSt').textContent='Haikuanza: '+e.message}}
+function simamishaRekodi(){if(rec&&rec.state!=='inactive')rec.stop()}
+addEventListener('beforeunload',e=>{if(rec){e.preventDefault();e.returnValue=''}});
+// ===== NYIMBO / TENZI =====
+let wm=[],wi=-1,wsq=[],ub=-1,wbOn=false,lw=null;
+try{wm=JSON.parse(localStorage.getItem('tenzi')||'[]')}catch(e){}
+const wSave=()=>{try{localStorage.setItem('tenzi',JSON.stringify(wm))}catch(e){alert('Imeshindwa kuhifadhi: '+e.message)}};
+function wParse(x,rud){const bl=x.split(/\n\s*\n/).map(b=>b.trim()).filter(Boolean),re=/^(kiitikio|chorus|\[k\])\s*:?\s*/i,isK=b=>re.test(b),cl=b=>b.replace(re,'');
+ const k=bl.find(isK),ch=k?cl(k):null;let n=0,q=[];
+ if(rud&&ch)bl.filter(b=>!isK(b)).forEach(b=>{q.push({l:'Ubeti '+(++n),t:b});q.push({l:'Kiitikio',t:ch})});
+ else bl.forEach(b=>{if(isK(b))q.push({l:'Kiitikio',t:cl(b)});else q.push({l:'Ubeti '+(++n),t:b})});return q}
+function wList(){const q=$('wt').value.trim().toLowerCase();$('wl').innerHTML='';
+ wm.map((w,i)=>[w,i]).filter(([w])=>!q||(w.n+' '+w.t).toLowerCase().includes(q)).sort((a,b)=>String(a[0].n).localeCompare(String(b[0].n),undefined,{numeric:true}))
+ .forEach(([w,i])=>{const d=document.createElement('div'),t=document.createElement('span'),b=document.createElement('button');d.className='wrow'+(i===wi?' on':'');t.className='wtitle';t.textContent=(w.n?w.n+'. ':'')+w.t;t.onclick=()=>wChagua(i);b.type='button';b.className='wpush gr';b.textContent='RUSHA TV';b.onclick=e=>{e.stopPropagation();wChagua(i);onyeshaUbeti(0)};d.appendChild(t);d.appendChild(b);d.onclick=()=>wChagua(i);$('wl').appendChild(d)});
+ if(!$('wl').children.length)$('wl').innerHTML='<div style="color:#999;cursor:default">Hakuna nyimbo. Andika wimbo na ubonyeze Hifadhi, au tumia Import.</div>'}
+async function wPakiaChanzo(){const st=$('wst');if(localStorage.getItem('tenziDataV1')==='1'){st.textContent='Nyimbo zilizohifadhiwa tayari zipo kwenye kivinjari hiki.';return}
+ st.textContent='Inapakia nyimbo kutoka tenzi-data.json...';
+ try{const r=await fetch('tenzi-data.json');if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();
+  if(!Array.isArray(data)||data.some(w=>!w||typeof w.n!=='string'||!w.n||typeof w.t!=='string'||!w.t||typeof w.x!=='string'||!w.x))throw new Error('Muundo wa faili si sahihi.');
+  const known=new Set(wm.map(w=>String(w.n))),added=data.filter(w=>!known.has(String(w.n))),merged=wm.concat(added);
+  localStorage.setItem('tenzi',JSON.stringify(merged));wm=merged;localStorage.setItem('tenziDataV1','1');wList();
+  st.textContent='✔ Nyimbo '+data.length+' tofauti zimepakiwa. Tafuta kwa namba au mstari wa kwanza; tumia RUSHA TV kisha Iliyotangulia/Inayofuata.';
+ }catch(e){st.textContent='❌ Imeshindwa kupakia tenzi-data.json: '+e.message}}
+function wChagua(i){wi=i;$('wn').value=wm[i].n;$('wk').value=wm[i].t;$('wx').value=wm[i].x;ub=-1;wBuild();wList()}
+function wBuild(){wsq=wParse($('wx').value,$('rud').checked);$('wb').innerHTML='';
+ wsq.forEach((s,i)=>{const e=document.createElement('span');e.textContent=s.l;if(s.l==='Kiitikio')e.className='k';e.onclick=()=>onyeshaUbeti(i);$('wb').appendChild(e)});wMark()}
+function wMark(){[...$('wb').children].forEach((e,i)=>e.classList.toggle('on',wbOn&&i===ub))}
+function wHifadhi(){const n=$('wn').value.trim(),t=$('wk').value.trim(),x=$('wx').value.trim();if(!t||!x)return alert('Andika kichwa na maneno ya wimbo');
+ if(wi>=0)wm[wi]={n,t,x};else{wm.push({n,t,x});wi=wm.length-1}wSave();wList();wBuild()}
+function wMpya(){wi=-1;ub=-1;$('wn').value=$('wk').value=$('wx').value='';wBuild();wList()}
+function wFuta(){if(wi<0||!confirm('Futa wimbo huu?'))return;wm.splice(wi,1);wSave();wMpya()}
+function wExport(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(wm,null,1)],{type:'application/json'}));a.download='tenzi-nakala.json';a.click()}
+function wUnganisha(a){a.forEach(w=>{if(!w.t||!w.x)return;const i=w.n?wm.findIndex(o=>String(o.n)===String(w.n)):-1;if(i>=0)wm[i]=w;else wm.push(w)});wSave();wList()}
+$('wi').onchange=async e=>{const f=e.target.files[0];if(!f)return;const t=(await f.text()).replace(/^\uFEFF/,'');
+ try{if(f.name.toLowerCase().endsWith('.json'))wUnganisha(JSON.parse(t).map(w=>({n:String(w.n||''),t:String(w.t||''),x:String(w.x||'')})));
+  else wUnganisha(t.split(/^###\s*/m).slice(1).map(b=>{const l=b.split(/\r?\n/),m=l[0].match(/^(\d+)?\s*[|.\-–:]?\s*(.*)$/);return{n:m[1]||'',t:(m[2]||'').trim(),x:l.slice(1).join('\n').trim()}}));
+  alert('Nyimbo zimeongezwa. Jumla: '+wm.length)}catch(err){alert('Faili si sahihi: '+err.message)}e.target.value=''};
+function onyeshaUbeti(i){if(!wsq.length)return alert('Chagua au andika wimbo kwanza');ub=Math.max(0,Math.min(wsq.length-1,i));
+ wbOn=true;hewa=false;slOn=false;markSl();modiUi('wimbo');const n=$('wn').value.trim(),t=$('wk').value.trim(),an=(n?'TENZI '+n+' – ':'')+t+' • '+wsq[ub].l;
+ lw={mfumo:'show',anuani:an,maneno:wsq[ub].t,wimbo:true};ch.postMessage(lw);tvSt('🎵 '+an);wMark()}
+function ubNenda(d){if(!wsq.length)return;onyeshaUbeti(wbOn?ub+d:Math.max(ub,0))}
+$('wt').oninput=wList;$('wx').oninput=wBuild;$('rud').onchange=wBuild;wList();wPakiaChanzo();
+// mipangilio
+function tuma(){localStorage.setItem('tvS',JSON.stringify(S));ch.postMessage({mfumo:'settings',s:S})}
+['bg','layout','dev','code','kam'].forEach(k=>$(k).onchange=$(k).oninput=()=>{S[k]=$(k).value;ui();tuma()});
+$('size').oninput=()=>{S.size=+$('size').value;ui();tuma()};
+['saa_on','nembo_on'].forEach(k=>$(k).onchange=()=>{S[k]=$(k).checked;tuma()});
+// matangazo
+//TK-PARSE-START
+const tkPgNo=/^(?:[-–—]\s*\d+\s*[-–—]|(?:ukurasa|uk\.?|page|p\.)\s*\d+(?:\s*(?:\/|ya|of)\s*\d+)?|\d+\s*(?:\/|ya|of)\s*\d+)$/i;
+const tkAnza=[/^\(\s*(\d{1,3})\s*\)\s*(.*)$/,/^(\d{1,3})\s*(?:[.)\]:]|[-–—])(?:\s+(.*))?$/,/^(?:tangazo|matangazo|namba|na\.?|no\.?)\s*(?:la\s+|ya\s+)?(\d{1,3})\s*[.):\-–—]?\s*(.*)$/i];
+function tkLines(items){const a=items.filter(i=>i.s&&i.s.trim()).sort((p,q)=>q.y-p.y||p.x-q.x),L=[];
+ for(const i of a){const l=L[L.length-1];if(l&&Math.abs(l.y-i.y)<=4)l.p.push(i);else L.push({y:i.y,p:[i]})}
+ return L.map(l=>{l.p.sort((p,q)=>p.x-q.x);let s='',pr=null;for(const i of l.p){if(pr&&!/\s$/.test(s)&&!/^\s/.test(i.s)&&i.x-(pr.x+(pr.w||0))>1)s+=' ';s+=i.s;pr=i}return s.replace(/\s+/g,' ').trim()}).filter(Boolean)}
+function tkMistari(pages){const k0=s=>s.toLowerCase(),c={},P=pages.map((pg,k)=>{const L=tkLines(pg);
+ if(L.length&&(tkPgNo.test(L[L.length-1])||L[L.length-1]===String(k+1)))L.pop();
+ if(L.length&&tkPgNo.test(L[0]))L.shift();return L});
+ if(P.length>1)P.forEach(L=>{if(L.length){const a='h'+k0(L[0]),z='f'+k0(L[L.length-1]);c[a]=(c[a]||0)+1;c[z]=(c[z]||0)+1}});
+ const out=[];P.forEach(L=>{if(L.length&&c['h'+k0(L[0])]>1)L.shift();if(L.length&&c['f'+k0(L[L.length-1])]>1)L.pop();out.push(...L)});return out}
+function tkGawa(lines){const r=[];let cur=null,next=1;
+ for(const ln of lines){let m=null;
+  for(let k=0;k<tkAnza.length&&!m;k++){const x=ln.match(tkAnza[k]);if(!x)continue;const n=+x[1];if(n===next||(k<2&&n>next&&n<=next+2&&r.length))m={n,t:x[2]}}
+  if(m){cur={n:m.n,t:(m.t||'').trim()};r.push(cur);next=m.n+1}
+  else if(cur)cur.t=(cur.t+' '+ln).replace(/\s+/g,' ').trim()}
+ return r.filter(x=>x.t)}
+//TK-PARSE-END
+async function tkSomaPdf(f){if(!window.pdfjsLib)throw new Error('Maktaba ya PDF haijapakiwa (hakuna intaneti).');
+ const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise,pages=[];
+ for(let p=1;p<=pdf.numPages;p++){const c=await(await pdf.getPage(p)).getTextContent();pages.push(c.items.filter(i=>typeof i.str==='string').map(i=>({s:i.str,x:i.transform[4],y:i.transform[5],w:i.width||0})))}
+ return pages}
+function tkMsg(m,bad){const e=$('tkmsg');e.textContent=m||'';e.style.color=bad?'#c62828':'#2e7d32';e.style.display=m?'block':'none'}
+function tkSync(){S.tk_list=(S.tk_items||[]).filter(x=>x.on&&x.t.trim()).map(x=>x.t.trim())}
+function tkMeta(){const it=S.tk_items||[],on=it.filter(x=>x.on&&x.t.trim()).length,d=S.tk_pdf&&new Date(S.tk_pdf.tarehe),M=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ago','Sep','Okt','Nov','Des'];
+ $('tkmeta').textContent=it.length?(S.tk_pdf?'📄 '+S.tk_pdf.jina+' • '+d.getDate()+' '+M[d.getMonth()]+' '+d.getFullYear()+' • ':'')+'Matangazo '+it.length+' ('+on+' yanaonyeshwa kwenye TV)':'Hakuna matangazo bado. Pakia PDF.';
+ $('tkdzt').textContent=it.length?'📄 Pakia PDF mpya (itabadilisha orodha ya sasa)':'📄 Bofya hapa kupakia PDF ya Matangazo'}
+let tkT;function tkSave(){tkSync();tkPv();tkMeta();clearTimeout(tkT);tkT=setTimeout(tuma,250)}
+function tkGrowRow(t){t.style.height='auto';t.style.height=(t.scrollHeight+2)+'px'}
+function tkRender(){const L=$('tkl'),it=S.tk_items||[],tas=[];L.innerHTML='';
+ it.forEach((x,i)=>{const r=document.createElement('div');r.className='tki'+(x.on?'':' off');
+  const c=document.createElement('input');c.type='checkbox';c.checked=!!x.on;c.title='Washa/zima tangazo hili';c.onchange=()=>{x.on=c.checked;r.classList.toggle('off',!x.on);tkSave()};
+  const n=document.createElement('b');n.textContent=i+1;
+  const t=document.createElement('textarea');t.rows=1;t.value=x.t;t.oninput=()=>{x.t=t.value;tkGrowRow(t);tkSave()};tas.push(t);
+  const d=document.createElement('button');d.textContent='✕';d.title='Futa tangazo hili';d.onclick=()=>{it.splice(i,1);tkRender();tkSave()};
+  r.append(c,n,t,d);L.appendChild(r)});
+ tas.forEach(tkGrowRow);tkMeta()}
+async function tkPakia(f){tkMsg('');if(!f)return;
+ if(!/\.pdf$/i.test(f.name)&&f.type!=='application/pdf')return tkMsg('Chagua faili ya PDF (.pdf) tu.',1);
+ try{tkMsg('Inasoma PDF...');const pages=await tkSomaPdf(f);
+  if(!pages.some(p=>p.some(i=>i.s.trim())))return tkMsg('PDF hii haina maandishi (inaonekana imechanganuliwa kama picha). Tumia PDF ya maandishi, mfano iliyohifadhiwa kutoka Word au Google Docs.',1);
+  const r=tkGawa(tkMistari(pages));
+  if(!r.length)return tkMsg('Sikuona namba za matangazo. Hakikisha kila tangazo linaanza na namba kuanzia 1, mfano "1.", "2)" au "Tangazo la 3", kisha pakia tena.',1);
+  S.tk_items=r.map(x=>({t:x.t,on:true}));S.tk_pdf={jina:f.name,tarehe:Date.now()};
+  tkRender();tkSave();tkMsg('Matangazo '+r.length+' yamepatikana na yanaonyeshwa kwenye TV. Unaweza kuyahariri, kuyazima au kuyafuta hapa chini.')}
+ catch(e){tkMsg('Imeshindikana kusoma PDF: '+(e.message||e),1)}}
+function tkFuta(){if(!(S.tk_items||[]).length||!confirm('Futa matangazo yote?'))return;S.tk_items=[];S.tk_pdf=null;tkMsg('');tkRender();tkSave()}
+function tkInit(){if(!Array.isArray(S.tk_items))S.tk_items=(S.tk_list||[]).map(t=>({t,on:true}));tkSync();tkRender();
+ const z=$('tkdz'),f=$('tk_file');z.onclick=()=>f.click();f.onchange=()=>{const x=f.files[0];f.value='';tkPakia(x)};
+ z.ondragover=e=>{e.preventDefault();z.classList.add('ov')};z.ondragleave=()=>z.classList.remove('ov');
+ z.ondrop=e=>{e.preventDefault();z.classList.remove('ov');tkPakia(e.dataTransfer.files[0])}}
+function tkPv(){$('tkpv').className='tkp tk-'+S.tk_theme;$('tkpl').textContent=(S.tk_label||'').trim()||'MATANGAZO';$('tkpt').textContent=S.tk_list.length?S.tk_list.join('   ◆   '):'(hakuna matangazo bado)'}
+['tk_theme','tk_speed','tk_label'].forEach(k=>$(k).onchange=$(k).oninput=()=>{S[k]=$(k).value;ui();tuma()});
+$('tk_on').onchange=()=>{S.tk_on=$('tk_on').checked;tuma()};
+function ui(){for(const k of['bg','layout','code','kam'])$(k).value=S[k];$('size').value=S.size;$('szv').textContent=S.size;
+ $('saa_on').checked=S.saa_on;$('nembo_on').checked=S.nembo_on;$('tk_on').checked=S.tk_on;$('tk_theme').value=S.tk_theme;$('tk_speed').value=S.tk_speed;if($('tk_label').value!==S.tk_label)$('tk_label').value=S.tk_label;tkPv();$('bd').style.display=S.kam==='device'?'block':'none';$('bs').style.display=S.kam==='simu'?'block':'none'}
+async function tafutaKamera(){try{(await navigator.mediaDevices.getUserMedia({video:true})).getTracks().forEach(t=>t.stop());
+ const d=(await navigator.mediaDevices.enumerateDevices()).filter(x=>x.kind==='videoinput');$('dev').innerHTML='';
+ d.forEach(x=>$('dev').add(new Option(x.label||'Kamera',x.deviceId)));if(S.dev)$('dev').value=S.dev;S.dev=$('dev').value;tuma()}
+ catch(e){alert('Kamera imekataliwa: '+e.message)}}
+ch.onmessage=e=>{if(e.data.mfumo==='hello'){tuma();if(sl.length)ch.postMessage({mfumo:'deck',picha:sl});if(slOn)ch.postMessage({mfumo:'slide',i:si});else if(wbOn&&lw)ch.postMessage(lw);else if(hewa)ch.postMessage({mfumo:'show',...mst()})}};
+function saa(){const n=new Date(),p=x=>String(x).padStart(2,'0');$('saa').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+ $('tar').textContent=["Jumapili","Jumatatu","Jumanne","Jumatano","Alhamisi","Ijumaa","Jumamosi"][n.getDay()]+', '+p(n.getDate())+' '+["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ago","Sep","Okt","Nov","Des"][n.getMonth()]}
+setInterval(saa,1000);saa();tkInit();ui();tuma();
+if(window.lucide)lucide.createIcons();
+</script></body></html>
